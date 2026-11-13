@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
+  printf '%s\n' 'Usage: lightmd [file-or-folder ...]'
+  printf '%s\n' 'Open files or folders in lightmd.'
+  exit 0
+fi
+
+APP="${LIGHTMD_APP:-/Applications/lightmd.app}"
+if [ ! -d "$APP" ]; then
+  APP="$HOME/Applications/lightmd.app"
+fi
+
+if [ ! -d "$APP" ]; then
+  printf '%s\n' 'lightmd.app was not found.' >&2
+  printf '%s\n' 'Set LIGHTMD_APP to the app bundle path, or install it in /Applications.' >&2
+  exit 1
+fi
+
+unset ELECTRON_RUN_AS_NODE
+exec /usr/bin/open -a "$APP" "$@"

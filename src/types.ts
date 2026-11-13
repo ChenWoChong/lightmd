@@ -18,3 +18,21 @@ export interface FileHandleLike {
     close(): Promise<void>
   }>
 }
+
+export interface WorkspaceEntry {
+  name: string
+  path: string
+  kind: 'file' | 'directory'
+}
+
+export interface DesktopPathInfo {
+  path: string
+  kind: 'file' | 'directory'
+  directory: string
+}
+
+export interface DesktopFile {
+  path: string
+  name: string
+  text: string
+}

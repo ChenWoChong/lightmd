@@ -7,6 +7,7 @@ import {
   Copy,
   Eye,
   FilePlus2,
+  FileSearch,
   FileText,
   FolderOpen,
   Moon,
@@ -30,8 +31,11 @@ interface ToolbarProps {
     words: number
   }
   statusText: string
+  workspaceName: string | null
+  desktopFiles: boolean
   onNew: () => void
   onOpen: () => void
+  onOpenFolder: () => void
   onSave: () => void
   onPrint: () => void
   onRename: () => void
@@ -56,8 +60,11 @@ export function Toolbar({
   syncScroll,
   stats,
   statusText,
+  workspaceName,
+  desktopFiles,
   onNew,
   onOpen,
+  onOpenFolder,
   onSave,
   onPrint,
   onRename,
@@ -113,8 +120,19 @@ export function Toolbar({
             aria-label="打开文件"
             title="打开文件"
           >
-            <FolderOpen />
+            <FileSearch />
           </button>
+          {desktopFiles ? (
+            <button
+              type="button"
+              className="chrome-icon"
+              onClick={onOpenFolder}
+              aria-label="打开文件夹"
+              title="打开文件夹"
+            >
+              <FolderOpen />
+            </button>
+          ) : null}
           <button
             type="button"
             className="chrome-icon"
@@ -131,6 +149,14 @@ export function Toolbar({
         <div className="document-path" aria-label="文件路径">
           <span className="document-path__origin">Local</span>
           <ChevronRight className="document-path__separator" aria-hidden="true" />
+          {workspaceName ? (
+            <>
+              <span className="document-path__folder" title={workspaceName}>
+                {workspaceName}
+              </span>
+              <ChevronRight className="document-path__separator" aria-hidden="true" />
+            </>
+          ) : null}
           <button
             type="button"
             className="document-path__current"
